@@ -1,0 +1,28 @@
+#!/bin/bash
+
+RED="\033[1;31m"
+GREEN="\033[1;32m"
+NOCOLOR="\033[0m"
+
+declare -a friends=(
+    "caroline"
+    "kehoe"
+    "dam"
+    "allen"
+    "arron"
+)
+
+online=false
+
+for person in "${!friends[@]}"; do
+    if [ "$(who -q | grep -w ${friends[$person]} | wc -w)" != "0"  ]; then
+        if [ "${friends[$person]}" != "$USER" ]; then
+            online=true
+            echo -e "${GREEN}${friends[$person]}${NOCOLOR} is online"
+        fi
+    fi
+done
+
+if [ $online == false ]; then
+    echo -e "${RED}None of your friends are logged in${NOCOLOR}"
+fi
